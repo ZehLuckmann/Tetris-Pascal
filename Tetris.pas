@@ -36,25 +36,6 @@ Type
                color : integer;         // cor                             
              end;
 
-{ Quanto ao tamanho das peças, existem peças de 4x4 (size=4) e de 3x3 (size=3). No
- caso das de 4x4, o eixo de rotação é bem no meio da array. Exemplo (retângulo): 
-
-       |               |               |               |               |
-    0 1 0 0   ->    0 0 0 0   ->    0 0 1 0   ->    0 0 0 0   ->    0 1 0 0
-  _ 0 1 0 0 _ ->  _ 1 1 1 1 _ ->  _ 0 0 1 0 _ ->  _ 0 0 0 0 _ ->  _ 0 1 0 0 _
-    0 1 0 0   ->    0 0 0 0   ->    0 0 1 0   ->    1 1 1 1   ->    0 1 0 0
-    0 1 0 0   ->    0 0 0 0   ->    0 0 1 0   ->    0 0 0 0   ->    0 1 0 0
-       |               |               |               |               | 
- Já nas peças de 3x3, o eixo de rotação é na célula (2,2). Exemplo ("L"):
-      |               |               |               |               |  
-    0 0 0 0   ->    1 0 0 0         1 1 1 0         0 1 1 0         0 0 0 0
-  - 0 0 1 0 - ->  - 1 0 0 0 - ->  - 1 0 0 0 - ->  - 0 0 1 0 - ->  - 0 0 1 0 -
-    1 1 1 0   ->    1 1 0 0   ->    0 0 0 0   ->    0 0 1 0   ->    1 1 1 0
-    0 0 0 0   ->    0 0 0 0         0 0 0 0         0 0 0 0         0 0 0 0
-      |               |               |               |               |
- Repare que a estrutura utilizada para representar as formas de 4x4 e de 3x3 é a
- mesma, uma array bidimensional de 4x4. Contudo, nas peças de 3x3, existem 7
- células (as da última coluna e as da úllima linha) que são inutilizadas. } 
 Var
   grid : array[0..WidthPlusOne, 0..HeightPlusOne] of T_grid;    // Grid (incluindo bordas)
   obj  : T_object;                                              // Peça caindo no grid    
@@ -361,7 +342,7 @@ Begin
 	         next.cell[2,2] := TRUE;
 	         next.cell[2,3] := TRUE;
 					 next.size := 3;        
-	         next.color := BLACK;
+	         next.color := RED;
          end;
       end;   
 
@@ -376,6 +357,7 @@ Procedure prninfo( xpos, ypos : integer );
 Begin
   Xclrscr( xpos, ypos, 80, 24 );
 
+  
   textcolor(WHITE);             												
   gotoxy( xpos, ypos+0 );
   write(#218, #196, #196, ' Next ', #196, #196, #191);
@@ -396,18 +378,58 @@ Begin
   textcolor(YELLOW);  
   gotoxy( xpos, ypos+10 );
   write('       Level: 0    Score: 0');
-  gotoxy( xpos+17, ypos+1 );
+  gotoxy( xpos+12, ypos+1 );
   write('Controles:');
-  gotoxy( xpos+17, ypos+2 );
+  gotoxy( xpos+12, ypos+2 );
   write('  Mover : [setas]');
-  gotoxy( xpos+17, ypos+3 );
+  gotoxy( xpos+12, ypos+3 );
   write('  Girar : [space]');
-  gotoxy( xpos+17, ypos+4 );
+  gotoxy( xpos+12, ypos+4 );
   write('  Cair  : [enter]');
-  gotoxy( xpos+17, ypos+5 );
+  gotoxy( xpos+12, ypos+5 );
   write('  Pausa : "P"');
-  gotoxy( xpos+17, ypos+6 );
+  gotoxy( xpos+12, ypos+6 );
   write('  Sair  : [esc]');
+  
+  textcolor(WHITE);             												
+  xpos := xpos + 30;									
+  gotoxy( xpos, ypos+0 );
+	writeln('             ,----------------,              ,---------,');
+	gotoxy( xpos, ypos+1 );
+	writeln('        ,-----------------------,          ,"        ,"|');
+	gotoxy( xpos, ypos+2 );
+	writeln('      ,"                      ,"|        ,"        ,"  |');
+	gotoxy( xpos, ypos+3 );
+	writeln('     +-----------------------+  |      ,"        ,"    |');
+	gotoxy( xpos, ypos+4 );
+	writeln('     |  .-----------------.  |  |     +---------+      |');
+	gotoxy( xpos, ypos+5 );
+	writeln('     |  |                 |  |  |     | -==---- |      |');
+	gotoxy( xpos, ypos+6 );
+	writeln('     |  |     TETRIS!     |  |  |     |         |      |');
+	gotoxy( xpos, ypos+7 );
+	writeln('     |  |     Made by:    |  |  |/----|`---=    |      |');
+	gotoxy( xpos, ypos+8 );
+	writeln('     |  |   Zeh Luckmann  |  |  |   ,/|==== ooo |      ;');
+	gotoxy( xpos, ypos+9 );
+	writeln('     |  |                 |  |  |  // |(((( [33]|    ," ');
+	gotoxy( xpos, ypos+10 );
+	writeln('     |  `-----------------´  |," .;´| |((((     |  ,"   ');
+	gotoxy( xpos, ypos+11 );
+	writeln('     +-----------------------+  ;;  | |         |,"     ');
+	gotoxy( xpos, ypos+12 );
+	writeln('        /_)______________(_/  //´   | +---------+       ');
+	gotoxy( xpos, ypos+13 );
+	writeln('   ___________________________/___  `,                  ');
+	gotoxy( xpos, ypos+14 );
+	writeln('  /  oooooooooooooooo  .o.  oooo /,   \,"-----------    ');
+	gotoxy( xpos, ypos+15 );
+	writeln(' / ==ooooooooooooooo==.o.  ooo= //   ,`\--{)B     ,"    ');
+	gotoxy( xpos, ypos+16 );
+	writeln('/_==__==========__==_ooo__ooo=_/´   /___________,"      ');
+	
+
+  
 End;
 
 { ------------------------------------------------------------------
@@ -447,26 +469,6 @@ Begin
 	
 	textcolor(WHITE);
 	
-	write('> > >  TETRIS!  < < <');
-{	write('	           ,----------------,              ,---------,');
-	write('        ,-----------------------,          ,"        ,"|');
-	write('      ,"                      ,"|        ,"        ,"  |');
-	write('     +-----------------------+  |      ,"        ,"    |');
-	write('     |  .-----------------.  |  |     +---------+      |');
-	write('     |  |                 |  |  |     | -==---- |      |');
-	write('     |  |     TETRIS!     |  |  |     |         |      |');
-	write('     |  |     Made by:    |  |  |/----|`---=    |      |');
-	write('     |  |   Zeh Luckmann  |  |  |   ,/|==== ooo |      ;');
-	write('     |  |                 |  |  |  // |(((( [33]|    ," ');
-	write('     |  `-----------------´  |," .;´| |((((     |  ,"   ');
-	write('     +-----------------------+  ;;  | |         |,"     ');
-	write('        /_)______________(_/  //´   | +---------+       ');
-	write('   ___________________________/___  `,                  ');
-	write('  /  oooooooooooooooo  .o.  oooo /,   \,"-----------    ');
-	write(' / ==ooooooooooooooo==.o.  ooo= //   ,`\--{)B     ,"    ');
-	write('/_==__==========__==_ooo__ooo=_/´   /___________,"      ');
-}	
-	
 	repeat
 	  prninfo( orig.x + (WIDTH+2)*2 + 4, orig.y + 5 );
 		for i := 0 to WIDTH+1 do              // Preenche todo o grid (inclusive bordas)
@@ -477,7 +479,7 @@ Begin
     	end;
 				
 	  for i := 1 to WIDTH do                // Esvazia área interna do grid (deixando apenas	
-      for j := 1 to HEIGHT do           // as bordas preenchidas)	
+      for j := 1 TO HEIGHT do           // as bordas preenchidas)	
         grid[i,j].status := FALSE;
 	
 	  refresh;	
